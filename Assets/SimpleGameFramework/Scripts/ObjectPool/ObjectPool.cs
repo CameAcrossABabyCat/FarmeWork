@@ -317,31 +317,71 @@ namespace SimpleGameFramework
             }
             return toReleaseObjects;
         }
-        
 
+        /// <summary>
+        /// 释放超出对象池容量的可释放对象
+        /// </summary>
         public void Release()
         {
-
+            Release(m_Objects.Count - m_Capacity, DefaultReleaseObjectFillterCallBack);
         }
 
+        /// <summary>
+        /// 释放指定数量的可释放对象
+        /// </summary>
+        /// <param name="toReleaseCount"></param>
         public void Release(int toReleaseCount)
         {
-
+            Release(toReleaseCount, DefaultReleaseObjectFillterCallBack);
         }
 
+        /// <summary>
+        /// 释放对象池中所有为使用对象
+        /// </summary>
         public void ReleaseAllUnused()
         {
-
+            LinkedListNode<ObjectBase> current = m_Objects.First;
+            while (current != null)
+            {
+                if (current.Value.IsUseing)
+                {
+                    current = current.Next;
+                    continue;
+                }
+                LinkedListNode<ObjectBase> next = current.Next;
+                m_Objects.Remove(current);
+                current.Value.Release();
+                Debug.Log("对象被释放了:" + current.Value.Name);
+                current = next;
+            }
         }
 
+        /// <summary>
+        /// 对象池的定时释放
+        /// </summary>
         public void Update(float elapseSeconds, float realElapseSeconds)
         {
-
+            AutoReleaseTime += realElapseSeconds;
+            if (AutoReleaseTime < AutoReleaseInterval)
+                return;
+            Release();
         }
 
+        /// <summary>
+        /// 清理对象池
+        /// </summary>
         public void Shutdowm()
         {
+            var current = m_Objects.First;
 
+            while (current != null)
+            {
+                var next = current.Next;
+                m_Objects.Remove(current);
+                current.Value.Release();
+                Debug.Log("对象被释放了:" + current.Value.Name);
+                current = next;
+            }
         }
     }
 }
