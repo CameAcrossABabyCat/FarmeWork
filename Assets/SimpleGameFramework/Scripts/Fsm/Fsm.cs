@@ -107,8 +107,8 @@ namespace SimpleGameFramework
         /// <summary>
         /// 状态机轮询
         /// </summary>
-        /// <param name="elapseSeconds"></param>
-        /// <param name="realElapseSeconds"></param>
+        /// <param name="elapseSeconds">Time.deltatime 间隔时间</param>
+        /// <param name="realElapseSeconds">Time.unscaledDeltaTime 从最后一帧到当前帧的时间间隔</param>
         public void Update(float elapseSeconds, float realElapseSeconds)
         {
             if (CurrentState == null)
@@ -244,7 +244,7 @@ namespace SimpleGameFramework
         /// <summary>
         /// 设置状态机数据
         /// </summary>
-        public void SetData(string name,object data)
+        public void SetData(string name, object data)
         {
             if (string.IsNullOrEmpty(name))
                 Debug.Log("要设置的状态机数据名字为空");
