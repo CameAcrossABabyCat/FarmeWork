@@ -11,6 +11,7 @@ namespace MyGameManager
     {
         None,
         Start,
+        Loading,
         Waiting,
         Playing,
         End,

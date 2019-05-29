@@ -6,12 +6,12 @@ using UnityEngine;
 namespace MyGameManager
 {
     /// <summary>
-    /// 等待流程
+    /// 开始流程
     /// </summary>
-    public class OnGameWait : ProcedureBase
+    public class OnGameLoading : ProcedureBase
     {
         /// <summary>
-        /// 当进入等待流程
+        /// 当进入加载流程
         /// </summary>
         /// <param name="fsm"></param>
         public override void OnEnter(Fsm<ProcedureManager> fsm)
@@ -22,11 +22,11 @@ namespace MyGameManager
         public override void OnUpdate(Fsm<ProcedureManager> fsm, float elapseSeconds, float realElapseSeconds)
         {
             base.OnUpdate(fsm, elapseSeconds, realElapseSeconds);
-            //在等待流程中当流程变为start则变换流程为开始流程
-            if (ParameterManager.Singleton.IsTargetProcedure(GameProcedure.Start))
+            //在加载流程中当流程变为none则变换流程为默认流程
+            if (ParameterManager.Singleton.IsTargetProcedure(GameProcedure.None))
             {
-                //进入开始流程
-                ChangeState<OnGameStart>(fsm);
+                //进入默认流程
+                ChangeState<OnGameNone>(fsm);
             }
         }
     }

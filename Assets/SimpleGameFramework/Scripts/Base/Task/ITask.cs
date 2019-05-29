@@ -18,5 +18,10 @@ namespace SimpleGameFramework
         /// 任务是否完成
         /// </summary>
         bool Done { get; }
+
+        /// <summary>
+        /// 当任务被移除时调用
+        /// </summary>
+        void OnRemove();
     }
 }
